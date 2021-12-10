@@ -24,8 +24,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start:staging": "API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts start",
+    "build:staging": "API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts build",
+    "build:production": "API_BASE_URL=https://api-production-competitive-analysis.appextend.com react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
