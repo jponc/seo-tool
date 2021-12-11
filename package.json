@@ -24,9 +24,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start:staging": "API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts start",
-    "build:staging": "API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts build",
-    "build:production": "API_BASE_URL=https://api-production-competitive-analysis.appextend.com react-scripts build",
+    "start:staging": "REACT_APP_API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts start",
+    "build:staging": "REACT_APP_API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts build",
+    "build:production": "REACT_APP_API_BASE_URL=https://api-production-competitive-analysis.appextend.com react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.2"
+    "@types/react-router-dom": "^5.3.2",
+    "@types/styled-components": "^5.1.17"
   }
 }

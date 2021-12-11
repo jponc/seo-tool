@@ -1,6 +1,7 @@
 import { QueryJob } from "../types";
 
-const baseUrl = process.env.API_BASE_URL;
+const baseUrl = process.env.REACT_APP_API_BASE_URL;
+  console.log(baseUrl);
 
 export const getQueryJobs = async (token: string): Promise<QueryJob[]> => {
   const res = await fetch(`${baseUrl}/GetQueryJobs`, {
@@ -16,6 +17,7 @@ export const getQueryJobs = async (token: string): Promise<QueryJob[]> => {
   if (!res.ok) {
     throw new Error(`failed to fetch query jobs`);
   }
+
 
   return jsonData;
 }

@@ -1,8 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 
 type AuthContextType = {
-  isLoggedIn: boolean;
-  accessToken: string;
+  accessToken: string | undefined;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -12,8 +11,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthProvider: React.FunctionComponent = ({
   children,
 }) => {
-  const [accessToken, setAccessToken] = useState<string>("");
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
 
   // Pull access token from localstorage on mount
   useEffect(() => {
@@ -21,17 +19,7 @@ export const AuthProvider: React.FunctionComponent = ({
     setAccessToken("some-bogus-access-token");
   }, []);
 
-  // if access token changes, check if the user is now logged in / logged out
-  useEffect(() => {
-    if (accessToken === "") {
-      setIsLoggedIn(false);
-    } else {
-      setIsLoggedIn(true);
-    }
-  }, [accessToken]);
-
   const contextValue = {
-    isLoggedIn,
     accessToken,
   };
 
