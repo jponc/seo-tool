@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { getQueryJobs } from "../api/api";
+import { getQueryJobs, createQueryJob as apiCreateQueryJob } from "../api/api";
 import { QueryJob } from "../types";
 import { useAuth } from "./AuthContext";
 
 type QueryJobsContextType = {
   queryJobs: QueryJob[];
+  createQueryJob: (keyword: string) => Promise<void>;
 };
 
 export const QueryJobsContext = createContext<QueryJobsContextType | undefined>(
@@ -22,13 +23,24 @@ export const QueryJobsProvider: React.FunctionComponent = ({ children }) => {
       return;
     }
 
-    (async () => {
+    (async() => {
       setQueryJobs(await getQueryJobs(accessToken));
-    })();
+    })()
   }, [accessToken]);
+
+
+  const createQueryJob = async (keyword: string) => {
+    if (!accessToken) {
+      return;
+    }
+
+    await apiCreateQueryJob(accessToken, keyword);
+    setQueryJobs(await getQueryJobs(accessToken));
+  };
 
   const contextValue = {
     queryJobs,
+    createQueryJob,
   };
 
   return (
