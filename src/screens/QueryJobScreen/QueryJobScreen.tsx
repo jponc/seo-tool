@@ -103,9 +103,14 @@ export const QueryJobScreen = () => {
               <Typography variant="h6" gutterBottom component="div">
                 URL
               </Typography>
-              <Typography variant="body1" gutterBottom>
+              <Link
+                href={urlInfo.url}
+                color="primary"
+                variant="body1"
+                target="_blank"
+              >
                 {urlInfo.url}
-              </Typography>
+              </Link>
               <Typography variant="h6" gutterBottom component="div">
                 Title
               </Typography>
