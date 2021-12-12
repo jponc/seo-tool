@@ -34,7 +34,7 @@ const SearchField = styled(TextField)`
 
 type QueryJobCardsProps = {
   queryJobs: QueryJob[];
-  onClick: (queryJobId: string) => void;
+  onClick: (queryJobId: string, isCompleted: boolean) => void;
 };
 
 const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
@@ -46,7 +46,7 @@ const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
       {queryJobs.map((queryJob) => (
         <Grid item xs={4} key={queryJob.id}>
           <Card>
-            <CardActionArea onClick={() => onClick(queryJob.id)}>
+            <CardActionArea onClick={() => onClick(queryJob.id, !!queryJob.completed_at)}>
               <CardContent>
                 <CardTitle>
                   <Typography variant="h5" component="div">
@@ -81,8 +81,10 @@ export const DashboardScreen = () => {
   };
 
   const cards = useMemo(() => {
-    const handleCardOnClick = (queryJobId: string) => {
-      navigate(`/query-jobs/${queryJobId}`);
+    const handleCardOnClick = (queryJobId: string, isCompleted: boolean) => {
+      if (isCompleted) {
+        navigate(`/query-jobs/${queryJobId}`);
+      }
     };
 
     return <QueryJobCards queryJobs={queryJobs} onClick={handleCardOnClick} />;
