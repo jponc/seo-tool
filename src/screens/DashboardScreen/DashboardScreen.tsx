@@ -13,8 +13,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import { QueryJob } from "../../types";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 const CardTitle = styled.div`
   display: flex;
@@ -74,6 +73,8 @@ export const DashboardScreen = () => {
   const { queryJobs, createQueryJob } = useQueryJobs();
   const navigate = useNavigate();
 
+  const isQueryJobsLoaded = queryJobs.length > 0;
+
   const handleQueueOnClick = async () => {
     await createQueryJob(keyword);
     setKeyword("");
@@ -89,27 +90,32 @@ export const DashboardScreen = () => {
 
   return (
     <Layout title="Dashboard">
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <SearchRow>
-            <SearchField
-              variant="standard"
-              label="Queue keyword"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-            <Button
-              variant="contained"
-              startIcon={<SearchIcon />}
-              onClick={() => handleQueueOnClick()}
-            >
-              Queue
-            </Button>
-          </SearchRow>
+      {isQueryJobsLoaded ? (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <SearchRow>
+              <SearchField
+                variant="standard"
+                label="Queue keyword"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                startIcon={<SearchIcon />}
+                onClick={() => handleQueueOnClick()}
+              >
+                Queue
+              </Button>
+            </SearchRow>
+          </Grid>
+          {cards}
         </Grid>
-
-        {cards}
-      </Grid>
+      ) : (
+        <Typography variant="h6" gutterBottom component="div">
+          Initializing...
+        </Typography>
+      )}
     </Layout>
   );
 };
