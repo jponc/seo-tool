@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { getQueryJobs, createQueryJob as apiCreateQueryJob } from "../api/api";
+import * as api from "../api/api";
 import { QueryJob } from "../types";
 import { useAuth } from "./AuthContext";
 
@@ -24,18 +24,17 @@ export const QueryJobsProvider: React.FunctionComponent = ({ children }) => {
     }
 
     (async() => {
-      setQueryJobs(await getQueryJobs(accessToken));
+      setQueryJobs(await api.getQueryJobs(accessToken));
     })()
   }, [accessToken]);
-
 
   const createQueryJob = async (keyword: string) => {
     if (!accessToken) {
       return;
     }
 
-    await apiCreateQueryJob(accessToken, keyword);
-    setQueryJobs(await getQueryJobs(accessToken));
+    await api.createQueryJob(accessToken, keyword);
+    setQueryJobs(await api.getQueryJobs(accessToken));
   };
 
   const contextValue = {

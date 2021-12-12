@@ -13,6 +13,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import { QueryJob } from "../../types";
+import { useNavigate } from 'react-router-dom';
+
 
 const CardTitle = styled.div`
   display: flex;
@@ -70,20 +72,20 @@ const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
 export const DashboardScreen = () => {
   const [keyword, setKeyword] = useState<string>("");
   const { queryJobs, createQueryJob } = useQueryJobs();
-
-  const handleCardOnClick = (queryJobId: string) => {
-    console.log(queryJobId);
-  };
+  const navigate = useNavigate();
 
   const handleQueueOnClick = async () => {
     await createQueryJob(keyword);
     setKeyword("");
   };
 
-  const cards = useMemo(
-    () => <QueryJobCards queryJobs={queryJobs} onClick={handleCardOnClick} />,
-    [queryJobs]
-  );
+  const cards = useMemo(() => {
+    const handleCardOnClick = (queryJobId: string) => {
+      navigate(`/query-jobs/${queryJobId}`);
+    };
+
+    return <QueryJobCards queryJobs={queryJobs} onClick={handleCardOnClick} />;
+  }, [navigate, queryJobs]);
 
   return (
     <Layout title="Dashboard">
@@ -92,7 +94,7 @@ export const DashboardScreen = () => {
           <SearchRow>
             <SearchField
               variant="standard"
-              label="Search keyword"
+              label="Queue keyword"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
             />

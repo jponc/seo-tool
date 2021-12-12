@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -18,27 +18,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
-    </ListItem>
-  </div>
-);
-
-const drawerWidth: number = 240;
+export const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -93,10 +76,25 @@ type Props = {
 };
 
 export const Layout: React.FunctionComponent<Props> = ({ children, title }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const mainListItems = useMemo(
+    () => (
+      <div>
+        <ListItem button onClick={() => navigate("/")}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+      </div>
+    ),
+    [navigate]
+  );
 
   return (
     <Box sx={{ display: "flex" }}>

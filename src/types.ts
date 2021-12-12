@@ -6,3 +6,21 @@ export type QueryJob = {
   zenserp_batch_processed: boolean;
   created_at: string;
 }
+
+export type PositionHit = {
+  avg_position: number;
+  url: string;
+  location_hits_count: number;
+}
+
+export type UrlInfo = {
+  title: string;
+  url: string;
+  body: string;
+  links: Link[];
+}
+
+export type Link = {
+  text: string;
+  url: string;
+}
