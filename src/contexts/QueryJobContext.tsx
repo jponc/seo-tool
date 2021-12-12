@@ -8,7 +8,7 @@ type QueryJobContextType = {
   positionHits: PositionHit[];
   loadQueryJob: (queryJobId: string) => void;
   urlInfo: UrlInfo | undefined
-  setUrl: (url: string) => void;
+  setUrl: (url: string | undefined) => void;
 };
 
 export const QueryJobContext = createContext<QueryJobContextType | undefined>(
@@ -48,7 +48,12 @@ export const QueryJobProvider: React.FunctionComponent = ({ children }) => {
 
   // Set/unset UrlInfo when queryJobId and url changes
   useEffect(() => {
-    if (!accessToken || queryJobId === undefined || url === undefined) {
+    if (!accessToken || queryJobId === undefined) {
+      return;
+    }
+
+    if (url === undefined) {
+      setUrlInfo(undefined);
       return;
     }
 
