@@ -9,6 +9,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import styled from "styled-components";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import CardActionArea from "@mui/material/CardActionArea";
+import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
@@ -41,29 +42,43 @@ const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
   queryJobs,
   onClick,
 }) => {
+  const currentTime = new Date();
+
   return (
     <>
-      {queryJobs.map((queryJob) => (
-        <Grid item xs={4} key={queryJob.id}>
-          <Card>
-            <CardActionArea onClick={() => onClick(queryJob.id, !!queryJob.completed_at)}>
-              <CardContent>
-                <CardTitle>
-                  <Typography variant="h5" component="div">
-                    {queryJob.keyword}
-                  </Typography>
+      {queryJobs.map((queryJob) => {
+        let icon: JSX.Element;
+        const next30Minutes = new Date(queryJob.created_at);
+        next30Minutes.setMinutes(next30Minutes.getMinutes() + 30);
 
-                  {queryJob.completed_at ? (
-                    <CheckIcon color="success" />
-                  ) : (
-                    <AutorenewIcon color="warning" />
-                  )}
-                </CardTitle>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-      ))}
+        if (queryJob.completed_at) {
+          icon = <CheckIcon color="success" />;
+        } else if (currentTime >= next30Minutes) {
+          icon = <CloseIcon color="error" />;
+        } else {
+          icon = <AutorenewIcon color="warning" />;
+        }
+
+        return (
+          <Grid item xs={4} key={queryJob.id}>
+            <Card>
+              <CardActionArea
+                onClick={() => onClick(queryJob.id, !!queryJob.completed_at)}
+              >
+                <CardContent>
+                  <CardTitle>
+                    <Typography variant="h5" component="div">
+                      {queryJob.keyword}
+                    </Typography>
+
+                    {icon}
+                  </CardTitle>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        );
+      })}
     </>
   );
 };
