@@ -1,20 +1,19 @@
-import { useMemo, useState } from "react";
+import { MouseEvent, useMemo, useState } from "react";
 import { Layout } from "../../components/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { useQueryJobs } from "../../contexts/QueryJobsContext";
 import Typography from "@mui/material/Typography";
-import CheckIcon from "@mui/icons-material/Check";
 import styled from "styled-components";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
 import CardActionArea from "@mui/material/CardActionArea";
-import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import { QueryJob } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { Chip } from "@mui/material";
 
 const CardTitle = styled.div`
   display: flex;
@@ -29,6 +28,15 @@ const SearchRow = styled.div`
   justify-content: flex-end;
 `;
 
+const Icons = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const IconChip = styled(Chip)`
+  margin-right: 10px;
+`;
+
 const SearchField = styled(TextField)`
   margin-right: 10px;
 `;
@@ -36,11 +44,13 @@ const SearchField = styled(TextField)`
 type QueryJobCardsProps = {
   queryJobs: QueryJob[];
   onClick: (queryJobId: string, isCompleted: boolean) => void;
+  onDelete: (queryJobId: string) => void;
 };
 
 const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
   queryJobs,
   onClick,
+  onDelete,
 }) => {
   const currentTime = new Date();
 
@@ -52,12 +62,22 @@ const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
         next30Minutes.setMinutes(next30Minutes.getMinutes() + 30);
 
         if (queryJob.completed_at) {
-          icon = <CheckIcon color="success" />;
+          icon = (
+            <IconChip label="Completed" color="success" variant="filled" />
+          );
         } else if (currentTime >= next30Minutes) {
-          icon = <CloseIcon color="error" />;
+          icon = <IconChip label="Error" color="error" variant="filled" />;
         } else {
-          icon = <AutorenewIcon color="warning" />;
+          icon = (
+            <IconChip label="Processing" color="warning" variant="filled" />
+          );
         }
+
+        const handleDeleteOnClick = (e: any) => {
+          e.stopPropagation();
+
+          onDelete(queryJob.id);
+        };
 
         return (
           <Grid item xs={4} key={queryJob.id}>
@@ -71,7 +91,10 @@ const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
                       {queryJob.keyword}
                     </Typography>
 
-                    {icon}
+                    <Icons>
+                      {icon}
+                      <DeleteIcon onClick={handleDeleteOnClick} />
+                    </Icons>
                   </CardTitle>
                 </CardContent>
               </CardActionArea>
@@ -85,7 +108,7 @@ const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
 
 export const DashboardScreen = () => {
   const [keyword, setKeyword] = useState<string>("");
-  const { queryJobs, createQueryJob } = useQueryJobs();
+  const { queryJobs, createQueryJob, deleteQueryJob } = useQueryJobs();
   const navigate = useNavigate();
 
   const isQueryJobsLoaded = queryJobs.length > 0;
@@ -102,8 +125,12 @@ export const DashboardScreen = () => {
       }
     };
 
-    return <QueryJobCards queryJobs={queryJobs} onClick={handleCardOnClick} />;
-  }, [navigate, queryJobs]);
+    const handleOnDelete = (queryJobId: string) => {
+      deleteQueryJob(queryJobId);
+    };
+
+    return <QueryJobCards queryJobs={queryJobs} onClick={handleCardOnClick} onDelete={handleOnDelete} />;
+  }, [navigate, queryJobs, deleteQueryJob]);
 
   return (
     <Layout title="Dashboard">

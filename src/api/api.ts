@@ -40,6 +40,22 @@ export const getQueryJob = async (token: string, id: string): Promise<QueryJob> 
   return jsonData;
 }
 
+export const deleteQueryJob = async (token: string, id: string): Promise<void> => {
+  const res = await fetch(`${baseUrl}/query-jobs/${id}`, {
+    headers: {
+      "Content-type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    method: "DELETE"
+  });
+
+  if (!res.ok) {
+    throw new Error(`failed to delete query job: ${id}`);
+  }
+
+  return;
+}
+
 export const getPositionHits = async (token: string, id: string): Promise<PositionHit[]> => {
   const res = await fetch(`${baseUrl}/query-jobs/${id}/position-hits`, {
     headers: {

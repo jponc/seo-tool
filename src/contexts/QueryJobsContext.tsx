@@ -6,6 +6,7 @@ import { useAuth } from "./AuthContext";
 type QueryJobsContextType = {
   queryJobs: QueryJob[];
   createQueryJob: (keyword: string) => Promise<void>;
+  deleteQueryJob: (queryJobId: string) => void;
 };
 
 export const QueryJobsContext = createContext<QueryJobsContextType | undefined>(
@@ -37,9 +38,20 @@ export const QueryJobsProvider: React.FunctionComponent = ({ children }) => {
     setQueryJobs(await api.getQueryJobs(accessToken));
   };
 
+  const deleteQueryJob = async (queryJobId: string) => {
+    if (!accessToken) {
+      return;
+    }
+
+    await api.deleteQueryJob(accessToken, queryJobId)
+    const newQueryJobs = queryJobs.filter(qj => qj.id !== queryJobId)
+    setQueryJobs(newQueryJobs);
+  };
+
   const contextValue = {
     queryJobs,
     createQueryJob,
+    deleteQueryJob,
   };
 
   return (
