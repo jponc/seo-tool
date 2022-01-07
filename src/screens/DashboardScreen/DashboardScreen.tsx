@@ -1,4 +1,4 @@
-import { MouseEvent, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Layout } from "../../components/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
