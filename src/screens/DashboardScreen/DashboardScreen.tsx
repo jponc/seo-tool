@@ -25,7 +25,11 @@ export const DashboardScreen = () => {
   };
 
   const cards = useMemo(() => {
-    const handleCardOnClick = (queryJobId: string, isCompleted: boolean) => {
+    const handleCardOnClick = (queryJobId: string) => {
+      const queryJob = queryJobs.find(qj => qj.id === queryJobId)
+
+      const isCompleted = queryJob && queryJob.completed_at !== null
+
       if (isCompleted) {
         navigate(`/query-jobs/${queryJobId}`);
       }

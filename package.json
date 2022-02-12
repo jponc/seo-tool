@@ -30,9 +30,7 @@
     "postdeploy:staging": "aws cloudfront create-invalidation --distribution-id E189B3QTWQZTH9 --paths '/*' --profile uptactics",
     "predeploy:production": "REACT_APP_API_BASE_URL=https://api-production-competitive-analysis.appextend.com react-scripts build",
     "deploy:production": "aws s3 sync build/ s3://seo-tool.appextend.com --profile uptactics",
-    "postdeploy:production": "aws cloudfront create-invalidation --distribution-id E3NPQXZPV1MPLM --paths '/*' --profile uptactics",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "postdeploy:production": "aws cloudfront create-invalidation --distribution-id E3NPQXZPV1MPLM --paths '/*' --profile uptactics"
   },
   "eslintConfig": {
     "extends": [

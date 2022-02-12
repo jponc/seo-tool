@@ -26,7 +26,7 @@ const IconChip = styled(Chip)`
 
 type QueryJobCardsProps = {
   queryJobs: QueryJob[];
-  onClick: (queryJobId: string, isCompleted: boolean) => void;
+  onClick: (queryJobId: string) => void;
   onDelete: (queryJobId: string) => void;
 };
 
@@ -66,7 +66,7 @@ export const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
           <Grid item xs={4} key={queryJob.id}>
             <Card>
               <CardActionArea
-                onClick={() => onClick(queryJob.id, !!queryJob.completed_at)}
+                onClick={() => onClick(queryJob.id)}
               >
                 <CardContent>
                   <CardTitle>
@@ -76,7 +76,7 @@ export const QueryJobCards: React.FunctionComponent<QueryJobCardsProps> = ({
 
                     <Icons>
                       {icon}
-                      <DeleteIcon onClick={handleDeleteOnClick} />
+                      <DeleteIcon onClick={handleDeleteOnClick} data-testid="QueryJobCards__delete-btn"/>
                     </Icons>
                   </CardTitle>
                 </CardContent>

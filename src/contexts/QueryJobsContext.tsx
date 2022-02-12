@@ -39,8 +39,6 @@ export const QueryJobsProvider: React.FunctionComponent = ({ children }) => {
       id: newQueryJobId,
       keyword,
       completed_at: null,
-      zenserp_batch_id: null,
-      zenserp_batch_processed: false,
       created_at: new Date().toISOString(),
     }
 
