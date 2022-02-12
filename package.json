@@ -8,7 +8,7 @@
     "@mui/icons-material": "^5.2.1",
     "@mui/material": "^5.2.3",
     "@mui/styled-engine-sc": "^5.1.0",
-    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
@@ -30,7 +30,8 @@
     "postdeploy:staging": "aws cloudfront create-invalidation --distribution-id E189B3QTWQZTH9 --paths '/*' --profile uptactics",
     "predeploy:production": "REACT_APP_API_BASE_URL=https://api-production-competitive-analysis.appextend.com react-scripts build",
     "deploy:production": "aws s3 sync build/ s3://seo-tool.appextend.com --profile uptactics",
-    "postdeploy:production": "aws cloudfront create-invalidation --distribution-id E3NPQXZPV1MPLM --paths '/*' --profile uptactics"
+    "postdeploy:production": "aws cloudfront create-invalidation --distribution-id E3NPQXZPV1MPLM --paths '/*' --profile uptactics",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
