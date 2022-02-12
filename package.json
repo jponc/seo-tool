@@ -24,6 +24,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "build": "react-scripts build",
     "start:staging": "REACT_APP_API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts start",
     "predeploy:staging": "REACT_APP_API_BASE_URL=https://api-staging-competitive-analysis.appextend.com react-scripts build",
     "deploy:staging": "aws s3 sync build/ s3://seo-tool-staging.appextend.com --profile uptactics",
