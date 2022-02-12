@@ -34,8 +34,18 @@ export const QueryJobsProvider: React.FunctionComponent = ({ children }) => {
       return;
     }
 
-    await api.createQueryJob(accessToken, keyword);
-    setQueryJobs(await api.getQueryJobs(accessToken));
+    const newQueryJobId = await api.createQueryJob(accessToken, keyword);
+    const newQueryJob: QueryJob = {
+      id: newQueryJobId,
+      keyword,
+      completed_at: null,
+      zenserp_batch_id: null,
+      zenserp_batch_processed: false,
+      created_at: new Date().toISOString(),
+    }
+
+    const newQueryJobs = [newQueryJob, ...queryJobs];
+    setQueryJobs(newQueryJobs);
   };
 
   const deleteQueryJob = async (queryJobId: string) => {
