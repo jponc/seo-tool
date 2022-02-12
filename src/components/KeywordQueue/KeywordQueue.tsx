@@ -29,11 +29,13 @@ export const KeywordQueue: React.FunctionComponent<KeywordQueueProps> = ({ onQue
         label="Queue keyword"
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
+        inputProps={{"data-testid": "KeywordQueue__search-field-input"}}
       />
       <Button
         variant="contained"
         startIcon={<SearchIcon />}
         onClick={handleOnQueueClick}
+        data-testid="KeywordQueue__queue-btn"
       >
         Queue
       </Button>
